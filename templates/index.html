@@ -2,32 +2,122 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Smile Detection - Face Thumbnails</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deteksi Senyum - Real-time Face Analysis</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>😊 Multi Face Smile Detection 😊</h1>
-        
-        <div class="main-content">
-            <div class="video-container">
-                <video id="video" autoplay playsinline width="640" height="480"></video>
-                <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
-                <div id="faceCount">👤 Jumlah Wajah: 0</div>
-            </div>
-            
-            <div class="results-container">
-                <h2>🎯 Wajah Terdeteksi</h2>
-                <div id="result" class="result-box">
-                    Menunggu deteksi...
+    <div class="app-container">
+        <!-- Header dengan gradient dan efek glass -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 9H9.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15 9H15.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="9" cy="9" r="1" fill="white"/>
+                            <circle cx="15" cy="9" r="1" fill="white"/>
+                        </svg>
+                    </div>
+                    <h1 class="app-title">Deteksi<span>Senyum</span> <span class="badge">damuel</span></h1>
                 </div>
-                <div id="faceResults" class="face-results">
-                    <!-- Hasil per wajah dengan thumbnail akan ditampilkan di sini -->
+                <div class="header-stats">
+                    <div class="stat-item" id="faceCountHeader">
+                        <span class="stat-label">Faces</span>
+                        <span class="stat-value" id="faceCountDisplay">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Status</span>
+                        <span class="stat-value status-indicator" id="statusIndicator">● Active</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-grid">
+            <!-- Video Section -->
+            <div class="video-card glass-card">
+                <div class="video-wrapper">
+                    <video id="video" autoplay playsinline></video>
+                    <canvas id="canvas" style="display:none;"></canvas>
+                    
+                    <!-- Overlay status -->
+                    <div class="video-overlay" id="videoOverlay">
+                        <div class="overlay-content">
+                            <div class="scanning-line"></div>
+                            <div class="face-detection-status" id="faceDetectionStatus">
+                                <span class="pulse-dot"></span>
+                                Searching for faces...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-footer">
+                    <div class="camera-controls">
+                        <button class="btn-control" id="toggleCamera" onclick="toggleCamera()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="12" r="4" fill="currentColor"/>
+                            </svg>
+                        </button>
+                        <span class="camera-status" id="cameraStatus">● Live</span>
+                    </div>
+                    <div class="detection-speed">
+                        <span class="speed-dot"></span>
+                        Real-time detection
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="results-card glass-card">
+                <div class="results-header">
+                    <div class="results-title-section">
+                        <h2>Face Analysis</h2>
+                        <span class="results-badge" id="totalFacesBadge">0 faces</span>
+                    </div>
+                    <div class="results-summary" id="resultSummary">
+                        <div class="summary-item">
+                            <span class="summary-icon">😊</span>
+                            <span class="summary-label">Smiling</span>
+                            <span class="summary-value" id="smileCount">0</span>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-item">
+                            <span class="summary-icon">😐</span>
+                            <span class="summary-label">Not Smiling</span>
+                            <span class="summary-value" id="nonSmileCount">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-body" id="faceResults">
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <h3>No Faces Detected</h3>
+                        <p>Position yourself in front of the camera</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <span>Powered by TensorFlow & OpenCV</span>
+            <span class="footer-divider">|</span>
+            <span>Real-time Smile Detection</span>
+        </footer>
     </div>
-    
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
