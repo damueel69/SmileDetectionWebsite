@@ -17,37 +17,30 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # ==========================================
 CASCADE_PATH = os.path.join(BASE_DIR, "haarcascade_frontalface_default.xml")
 
-# Cek apakah file ada
+# Download jika tidak ada
 if not os.path.exists(CASCADE_PATH):
-    # Download if not exists
     import urllib.request
     url = "https://raw.githubusercontent.com/opencv/opencv/master/data/haarcascades/haarcascade_frontalface_default.xml"
     urllib.request.urlretrieve(url, CASCADE_PATH)
+    print("✅ Haar Cascade downloaded")
 
 face_cascade = cv2.CascadeClassifier(CASCADE_PATH)
 
 # ==========================================
-# SIMPLE SMILE DETECTION (Tanpa Neural Network)
+# SIMPLE SMILE DETECTION
 # ==========================================
 def detect_smile_simple(face):
-    """
-    Deteksi smile menggunakan metode sederhana berbasis HSV
-    """
     try:
-        # Convert ke HSV
         hsv = cv2.cvtColor(face, cv2.COLOR_BGR2HSV)
         
-        # Deteksi area kulit
         lower_skin = np.array([0, 48, 80], dtype=np.uint8)
         upper_skin = np.array([20, 255, 255], dtype=np.uint8)
         mask = cv2.inRange(hsv, lower_skin, upper_skin)
         
-        # Hitung area kulit
         skin_area = cv2.countNonZero(mask)
         total_area = face.shape[0] * face.shape[1]
         skin_ratio = skin_area / total_area
         
-        # Analisis area mulut (bagian bawah wajah)
         height, width = face.shape[:2]
         mouth_y_start = int(height * 0.6)
         mouth_y_end = height
@@ -63,7 +56,6 @@ def detect_smile_simple(face):
         else:
             mouth_ratio = 0
         
-        # Decision logic
         if skin_ratio > 0.35 and mouth_ratio > 0.3:
             confidence = min(70 + (skin_ratio + mouth_ratio) * 20, 95)
             return "Smile 😊", round(confidence, 2)
@@ -108,7 +100,6 @@ def predict():
                 "message": "Gambar tidak valid"
             })
         
-        # Convert ke grayscale untuk face detection
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(
             gray, 
@@ -127,13 +118,9 @@ def predict():
         face_results = []
         
         for idx, (x, y, w, h) in enumerate(faces):
-            # Ekstrak wajah
             face = frame[y:y+h, x:x+w]
-            
-            # Deteksi smile
             result_text, confidence = detect_smile_simple(face)
             
-            # Tentukan status
             if "Smile" in result_text:
                 status = "smile"
             elif "Possible" in result_text:
@@ -141,17 +128,15 @@ def predict():
             else:
                 status = "non_smile"
             
-            # Buat thumbnail
             face_rgb = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
             face_thumbnail = cv2.resize(face_rgb, (120, 120))
             
-            # Tambah border
             if status == "smile":
-                border_color = (0, 255, 0)  # Hijau
+                border_color = (0, 255, 0)
             elif status == "possible":
-                border_color = (255, 255, 0)  # Kuning
+                border_color = (255, 255, 0)
             else:
-                border_color = (0, 0, 255)  # Merah
+                border_color = (0, 0, 255)
                 
             face_thumbnail_with_border = cv2.copyMakeBorder(
                 face_thumbnail, 
@@ -160,7 +145,6 @@ def predict():
                 value=border_color
             )
             
-            # Konversi ke base64
             _, buffer = cv2.imencode('.jpg', cv2.cvtColor(face_thumbnail_with_border, cv2.COLOR_RGB2BGR))
             thumbnail_base64 = base64.b64encode(buffer).decode('utf-8')
             
@@ -194,4 +178,5 @@ def predict():
 # MAIN
 # ==========================================
 if __name__ == "__main__":
-    app.run(debug=False)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)

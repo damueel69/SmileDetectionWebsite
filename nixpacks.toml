@@ -1,5 +1,11 @@
 [phases.setup]
-nixPkgs = ["python311", "opencv"]
+nixPkgs = ["python311", "python311Packages.pip"]
 
 [phases.install]
 cmds = ["pip install -r requirements.txt"]
+
+[phases.deploy]
+cmds = ["gunicorn app:app --bind 0.0.0.0:5000"]
+
+[start]
+cmd = "gunicorn app:app --bind 0.0.0.0:5000"
