@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Smile Detection</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+    <h1>😊 Smile Detection Website 😊</h1>
+
+    <video
+        id="video"
+        autoplay
+        playsinline
+        width="640"
+        height="480">
+    </video>
+
+    <canvas
+        id="canvas"
+        width="640"
+        height="480"
+        style="display:none;">
+    </canvas>
+
+    <h2 id="result">
+
+        Menunggu...
+
+    </h2>
+
+    <h3 id="faceCount">
+
+        Jumlah Wajah : 0
+
+    </h3>
+
+    <script
+        src="{{ url_for('static', filename='js/script.js') }}">
+    </script>
+
+</body>
+
+</html>
