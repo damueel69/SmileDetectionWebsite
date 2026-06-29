@@ -1,0 +1,9 @@
+cd C:\SmileDetectionWebsite
+
+python -m venv venv
+
+.\venv\Scripts\Activate
+
+pip install -r requirements.txt
+
+python app.py
