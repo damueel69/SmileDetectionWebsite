@@ -2,26 +2,22 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#667eea">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Smile Detection</title>
+    <title>Smile Detection - Face Thumbnails</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1>Multi Face Smile Detection</h1>
+        <h1>😊 Multi Face Smile Detection 😊</h1>
         
         <div class="main-content">
             <div class="video-container">
                 <video id="video" autoplay playsinline width="640" height="480"></video>
                 <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
-                <div id="faceCount">Jumlah Wajah: 0</div>
+                <div id="faceCount">👤 Jumlah Wajah: 0</div>
             </div>
             
             <div class="results-container">
-                <h2>Wajah Terdeteksi</h2>
+                <h2>🎯 Wajah Terdeteksi</h2>
                 <div id="result" class="result-box">
                     Menunggu deteksi...
                 </div>

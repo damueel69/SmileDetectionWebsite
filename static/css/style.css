@@ -11,13 +11,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 20px;
 }
 
 .container {
     background: white;
     border-radius: 20px;
-    padding: 20px;
+    padding: 30px;
     max-width: 1400px;
     width: 100%;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
@@ -26,30 +26,25 @@ body {
 h1 {
     text-align: center;
     color: #333;
-    margin-bottom: 20px;
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    margin-bottom: 30px;
+    font-size: 2.5em;
 }
 
 .main-content {
     display: flex;
-    gap: 20px;
+    gap: 30px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-/* ====================
-   VIDEO CONTAINER
-   ==================== */
 .video-container {
     flex: 1;
-    min-width: 280px;
+    min-width: 300px;
     max-width: 700px;
-    width: 100%;
 }
 
 .video-container video {
     width: 100%;
-    height: auto;
     border-radius: 15px;
     border: 3px solid #667eea;
     background: #000;
@@ -59,7 +54,7 @@ h1 {
 #faceCount {
     text-align: center;
     margin-top: 15px;
-    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-size: 1.2em;
     color: #667eea;
     font-weight: bold;
     padding: 10px;
@@ -68,62 +63,54 @@ h1 {
     transition: all 0.3s ease;
 }
 
-/* ====================
-   RESULTS CONTAINER
-   ==================== */
 .results-container {
     flex: 1;
-    min-width: 280px;
+    min-width: 300px;
     max-width: 500px;
-    width: 100%;
     background: #f8f9fa;
     border-radius: 15px;
-    padding: 15px;
-    max-height: 600px;
+    padding: 20px;
+    max-height: 580px;
     overflow-y: auto;
 }
 
 .results-container h2 {
     color: #333;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     text-align: center;
     border-bottom: 2px solid #667eea;
     padding-bottom: 10px;
-    font-size: clamp(1.2rem, 3vw, 1.8rem);
 }
 
 .result-box {
     background: white;
-    padding: 12px;
+    padding: 15px;
     border-radius: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     text-align: center;
-    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-size: 1.2em;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    min-height: 50px;
+    min-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.5s ease;
 }
 
-/* ====================
-   FACE ITEMS
-   ==================== */
 .face-results {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
 }
 
 .face-item {
     background: white;
-    padding: 10px;
+    padding: 12px;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     will-change: transform;
 }
@@ -134,8 +121,8 @@ h1 {
 }
 
 .face-thumbnail {
-    width: clamp(80px, 15vw, 120px);
-    height: clamp(80px, 15vw, 120px);
+    width: 120px;
+    height: 120px;
     border-radius: 10px;
     object-fit: cover;
     flex-shrink: 0;
@@ -147,20 +134,19 @@ h1 {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    min-width: 0; /* Mencegah overflow */
+    gap: 5px;
 }
 
 .face-id {
     font-weight: bold;
     color: #667eea;
-    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    font-size: 1.1em;
 }
 
 .face-result {
-    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-size: 1.3em;
     font-weight: 600;
-    margin: 3px 0;
+    margin: 5px 0;
     transition: color 0.3s ease;
 }
 
@@ -174,7 +160,7 @@ h1 {
 
 .face-confidence {
     color: #666;
-    font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+    font-size: 0.95em;
     background: #f0f0f0;
     padding: 3px 10px;
     border-radius: 20px;
@@ -193,11 +179,27 @@ h1 {
     width: 0%;
 }
 
-/* ====================
-   SCROLLBAR
-   ==================== */
+.no-face {
+    text-align: center;
+    color: #999;
+    padding: 30px 0;
+    font-size: 1.1em;
+}
+
+/* Animasi untuk perubahan status tanpa bergetar */
+@keyframes statusChange {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+}
+
+.status-update {
+    animation: statusChange 0.3s ease;
+}
+
+/* Scrollbar Styling */
 .results-container::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
 }
 
 .results-container::-webkit-scrollbar-track {
@@ -214,169 +216,47 @@ h1 {
     background: #764ba2;
 }
 
-/* ====================
-   ANIMATIONS
-   ==================== */
-@keyframes statusChange {
-    0% { opacity: 0.8; }
-    50% { opacity: 1; }
-    100% { opacity: 0.8; }
-}
-
-.status-update {
-    animation: statusChange 0.3s ease;
-}
-
-/* ====================
-   MOBILE RESPONSIVE
-   ==================== */
-
-/* Tablet dan Mobile Landscape */
-@media (max-width: 1024px) {
+/* Responsive Design */
+@media (max-width: 768px) {
     .container {
         padding: 15px;
     }
     
-    .main-content {
-        gap: 15px;
-    }
-}
-
-/* Mobile Portrait */
-@media (max-width: 768px) {
-    body {
-        padding: 5px;
-        align-items: flex-start;
-    }
-    
-    .container {
-        padding: 12px;
-        border-radius: 15px;
-        margin: 5px 0;
-    }
-    
     h1 {
-        font-size: 1.5rem;
-        margin-bottom: 15px;
+        font-size: 1.8em;
     }
     
     .main-content {
         flex-direction: column;
-        gap: 15px;
     }
     
     .video-container {
         max-width: 100%;
-        min-width: unset;
-    }
-    
-    .video-container video {
-        border-radius: 10px;
     }
     
     .results-container {
         max-width: 100%;
-        max-height: 400px;
-        min-width: unset;
-        padding: 12px;
+        max-height: 500px;
     }
     
     .face-item {
-        padding: 8px;
-        gap: 10px;
-        flex-direction: row; /* Tetap horizontal di mobile */
+        flex-direction: column;
+        text-align: center;
     }
     
     .face-thumbnail {
-        width: 70px;
-        height: 70px;
+        width: 100px;
+        height: 100px;
     }
     
     .face-confidence {
-        font-size: 0.75rem;
-        padding: 2px 8px;
+        margin: 0 auto;
     }
 }
 
-/* Mobile Kecil */
 @media (max-width: 480px) {
-    .container {
-        padding: 8px;
-        border-radius: 10px;
-    }
-    
-    h1 {
-        font-size: 1.2rem;
-        margin-bottom: 10px;
-    }
-    
-    .results-container {
-        max-height: 350px;
-        padding: 10px;
-    }
-    
-    .face-item {
-        padding: 6px;
-        gap: 8px;
-    }
-    
     .face-thumbnail {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .face-id {
-        font-size: 0.8rem;
-    }
-    
-    .face-result {
-        font-size: 0.9rem;
-    }
-    
-    .face-confidence {
-        font-size: 0.7rem;
-        padding: 2px 6px;
-    }
-    
-    .result-box {
-        font-size: 0.9rem;
-        padding: 8px;
-        min-height: 40px;
-    }
-    
-    #faceCount {
-        font-size: 0.9rem;
-        padding: 8px;
-    }
-}
-
-/* Landscape Mode di Mobile */
-@media (max-height: 500px) and (orientation: landscape) {
-    .container {
-        padding: 10px;
-    }
-    
-    .main-content {
-        flex-direction: row;
-        gap: 10px;
-    }
-    
-    .video-container {
-        max-width: 60%;
-    }
-    
-    .results-container {
-        max-height: 300px;
-        max-width: 40%;
-    }
-    
-    .face-thumbnail {
-        width: 50px;
-        height: 50px;
-    }
-    
-    h1 {
-        font-size: 1.2rem;
-        margin-bottom: 10px;
+        width: 80px;
+        height: 80px;
     }
 }
