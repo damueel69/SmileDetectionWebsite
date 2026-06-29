@@ -2,10 +2,11 @@
 nixPkgs = ["python311", "python311Packages.pip"]
 
 [phases.install]
-cmds = ["pip install -r requirements.txt"]
+cmds = ["pip install --upgrade pip", "pip install -r requirements.txt"]
 
 [phases.deploy]
-cmds = ["gunicorn app:app --bind 0.0.0.0:5000"]
+# Jangan jalankan gunicorn di sini, Railway akan handle sendiri
+cmds = []
 
 [start]
-cmd = "gunicorn app:app --bind 0.0.0.0:5000"
+# Railway akan menggunakan startCommand dari railway.json
